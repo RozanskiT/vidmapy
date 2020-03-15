@@ -37,3 +37,9 @@ def test_iterate_composition():
     x = {k:param.chemical_composition[k] for k in param.chemical_composition}
     assert x[1] == 0.9204
     assert x[100] == None
+
+def test_update_composition_from_dict():
+    param = parameters.Parameters()
+    new_composition = {3: -11.92,  4: -13.64,  5:  -9.10,  6:  -4.52,  7:  -3.12,  8:  -3.21}
+    param.update_chemical_composition(new_composition)
+    assert np.alltrue([new_composition[k] == param.chemical_composition[k] for k in new_composition])

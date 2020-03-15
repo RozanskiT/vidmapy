@@ -11,6 +11,10 @@ class Parameters:
         self.chemical_composition = Composition(_reference_composition)
 
         self.no_of_atlas_iterations = 15
+
+    def update_chemical_composition(self, composition_dict):
+        for atom_symbol in composition_dict:
+            self.chemical_composition[atom_symbol] = composition_dict[atom_symbol]
         
 class Composition:
     def __init__(self, reference_composition):
