@@ -43,3 +43,18 @@ def test_update_composition_from_dict():
     new_composition = {3: -11.92,  4: -13.64,  5:  -9.10,  6:  -4.52,  7:  -3.12,  8:  -3.21}
     param.update_chemical_composition(new_composition)
     assert np.alltrue([new_composition[k] == param.chemical_composition[k] for k in new_composition])
+
+def test_set_paramters():
+    param = parameters.Parameters()
+
+    param.teff = 3000.
+    assert param.teff == 3000.
+
+    param.logg = 4.0
+    assert param.logg == 4.0
+
+    param.metallicity = 1.0
+    assert param.metallicity == 1.0
+
+    param.microturbulence = 3.
+    assert param.microturbulence == 3.0
