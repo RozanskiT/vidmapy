@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import copy
 """
 """
 class Parameters:
@@ -21,7 +22,7 @@ class Composition:
         # reference_composition :
         # [(  1, 0.9204 , 'H ', 'Hydrogen'), ... ,(104, None   , 'Rf', 'Rutherfordium'), ...]
 
-        self._atoms_data = reference_composition
+        self._atoms_data = copy.deepcopy(reference_composition)
         self._index = {**{        x[0] : idx for idx, x in enumerate(self._atoms_data)},\
                        **{x[2].strip() : idx for idx, x in enumerate(self._atoms_data)}}
 
