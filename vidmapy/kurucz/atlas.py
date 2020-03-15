@@ -34,8 +34,17 @@ class Atlas:
 
     @metallicity.setter
     def metallicity(self, metallicity):
-        self.parameters.metallicity = metallicity  
+        self.parameters.metallicity = metallicity
 
+    def get_model(self):
+        with tempfile.TemporaryDirectory(prefix="atlas_") as tmpdirname:
+            string_model = self._compute_model(tmpdirname)
+
+        return string_model
+
+    def _compute_model(self, tmpdirname):
+        string_model = None
+        return string_model
 
 def main():
     pass
