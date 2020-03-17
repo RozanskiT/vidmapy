@@ -54,9 +54,9 @@ def test_set_title():
     assert md._title(parameters) == title_line
 
 @pytest.mark.parametrize("metallicity,correct", 
-                            [(1.0 , "ABUNDANCE SCALE   1.0000\n"), 
-                             (-0.5, "ABUNDANCE SCALE   -0.5000\n"), 
-                             (0.5 , "ABUNDANCE SCALE   0.5000\n")
+                            [(1.0 , "ABUNDANCE SCALE   10.0000\n"), 
+                             (-0.5, "ABUNDANCE SCALE   0.3162\n"), 
+                             (0.5 , "ABUNDANCE SCALE   3.1623\n")
                             ]
                         )
 def test_metallicity(metallicity, correct):
