@@ -4,11 +4,11 @@ import copy
 """
 """
 class Parameters:
-    def __init__(self):
-        self.teff = 5777
-        self.logg = 4.44
-        self.metallicity = 0.0
-        self.microturbulence = 2.0
+    def __init__(self, teff=5777, logg=4.44, metallicity=0.0, microturbulence=2.0):
+        self.teff = teff
+        self.logg = logg
+        self.metallicity = metallicity
+        self.microturbulence = microturbulence
         self.chemical_composition = Composition(_reference_composition)
 
         self.no_of_atlas_iterations = 15
@@ -16,7 +16,14 @@ class Parameters:
     def update_chemical_composition(self, composition_dict):
         for atom_symbol in composition_dict:
             self.chemical_composition[atom_symbol] = composition_dict[atom_symbol]
-        
+
+    def __eq__(self, other):
+        return self.teff == other.teff and\
+               self.logg == other.logg and\
+               self.metallicity == other.metallicity and\
+               self.microturbulence == other.microturbulence and\
+               self.chemical_composition == other.chemical_composition
+
 class Composition:
     def __init__(self, reference_composition):
         # reference_composition :
@@ -40,6 +47,9 @@ class Composition:
 
     def __iter__(self):
         return iter({ x[0]:x[1] for x in self._atoms_data})
+
+    def __eq__(self, other):
+        return all( [ other[x[0]] == self[x[0]] for x in self._atoms_data] )
 
 _reference_composition = [
     [  1, 0.9204 , 'H' , 'Hydrogen'],

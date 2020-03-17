@@ -58,3 +58,20 @@ def test_set_paramters():
 
     param.microturbulence = 3.
     assert param.microturbulence == 3.0
+
+def test_equals():
+    param1 = parameters.Parameters()
+    param2 = parameters.Parameters()
+    param3 = parameters.Parameters()
+    param4 = parameters.Parameters()
+
+    assert param1 == param2
+
+    param3.teff = 10000.
+    assert param1 != param3
+
+    param4.chemical_composition["H"] = 1
+    assert param1 != param4
+
+
+
