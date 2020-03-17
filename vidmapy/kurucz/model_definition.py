@@ -11,6 +11,7 @@ class ModelDefinition:
     def __call__(self, parameters):
         s = [
             self._introduction(),
+            self._teff_logg(parameters),
             self._microturbulence(parameters),
             self._title(parameters),
             self._metallicity(parameters),
@@ -48,7 +49,7 @@ class ModelDefinition:
         return "".join(s)
 
     def _metallicity(self, parameters):
-        return f"ABUNDANCE SCALE   {parameters.metallicity:6.4f}\n"
+        return f"ABUNDANCE SCALE   {10.**parameters.metallicity:6.4f}\n"
 
     def _teff_logg(self, parameters):
         return f"SCALE 72 -6.875 0.125 {parameters.teff:5.0f}. {parameters.logg:4.2f}\n"
