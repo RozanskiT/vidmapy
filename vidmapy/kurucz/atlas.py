@@ -3,9 +3,24 @@
 """
 """
 
+from vidmapy.kurucz.model import Model
+from vidmapy.kurucz.models_grid import Grid
+from vidmapy.kurucz.model_definition import ModelDefinition
+from vidmapy.kurucz.parameters import Parameters
+import os
+import subprocess
+import tempfile
+
+
 class Atlas:
-    def __init__(self, parameters):
-        self.parameters = parameters
+    def __init__(self):
+        self.parameters = Parameters()
+        self._kurucz_directory = os.path.dirname(os.path.abspath(__file__))
+        self.default_grid = os.path.join(self._kurucz_directory,"grids","ap00k2odfnew.txt")
+        self.set_grid(path=self.default_grid)
+        
+        self.kurucz_bin_path = "/usr/local/kurucz/"
+        self.atlas_name = "atlas9mem_newodf.exe"
 
     def get_report(self):
         return f"TEFF  = {self.parameters.teff:5.0f}\n"\
@@ -36,15 +51,46 @@ class Atlas:
     def metallicity(self, metallicity):
         self.parameters.metallicity = metallicity
 
-    def get_model(self):
+    def set_grid(self, path):
+        self._grid = Grid(path)
+
+    def get_model(self, parameters):
+        self.parameters = parameters
+        initial_model = self._get_initial_model()
+        if initial_model.is_model_has_this(self.parameters):
+            return initial_model
+        else:
+            return self._create_temporary_directory_and_run_ATLAS(initial_model)
+
+    def _get_initial_model(self):
+        model_as_string = self._grid.get_best_model(self.parameters) # TODO: probably data returned from grid should be of Model() type???
+        model = Model()
+        model.model_from_string(model_as_string)
+        return model
+
+    def _create_temporary_directory_and_run_ATLAS(self, initial_model):
         with tempfile.TemporaryDirectory(prefix="atlas_") as tmpdirname:
-            string_model = self._compute_model(tmpdirname)
+            model = self._compute_model(tmpdirname, initial_model)
+        return model
 
-        return string_model
-
-    def _compute_model(self, tmpdirname):
-        string_model = None
-        return string_model
+    def _compute_model(self, tmpdirname, initial_model):
+        md = ModelDefinition()
+        # Link necessary data:
+        os.symlink(os.path.join(self.kurucz_bin_path,"ODF","NEW","kapp02.ros"), os.path.join(tmpdirname,"fort.1"))
+        os.symlink(os.path.join(self.kurucz_bin_path,"ODF","NEW","p00big2.bdf"), os.path.join(tmpdirname,"fort.9"))
+        os.symlink(os.path.join(self.kurucz_bin_path,"lines","molecules.dat"), os.path.join(tmpdirname,"fort.2"))
+        # Create intial model:
+        initial_model.save_model(os.path.join(tmpdirname, "fort.3"))
+        # Run ATLAS
+        process = subprocess.Popen([os.path.join(self.kurucz_bin_path, "bin", self.atlas_name)],
+                                    stdin=subprocess.PIPE,
+                                    stdout=subprocess.PIPE,
+                                    encoding='utf8',
+                                    cwd=tmpdirname)
+        outs, errs = process.communicate(md(self.parameters))
+        process.wait()
+        
+        return Model(os.path.join(tmpdirname,"fort.7"))
 
 def main():
     pass
