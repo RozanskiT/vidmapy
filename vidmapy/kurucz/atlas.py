@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 
 """
+Implements easy-to-use interface to Kurucz's ATLAS code
+
+Needs to be use together with class Parameters.
+eg.
+    p = Parameters() # All default
+
+    wa = Atlas()
+    m = wa.get_model(p)
 """
 
 from vidmapy.kurucz.model import Model
@@ -63,10 +71,8 @@ class Atlas:
             return self._create_temporary_directory_and_run_ATLAS(initial_model)
 
     def _get_initial_model(self):
-        model_as_string = self._grid.get_best_model(self.parameters) # TODO: probably data returned from grid should be of Model() type???
-        model = Model()
-        model.model_from_string(model_as_string)
-        return model
+        model_as_string = self._grid.get_best_model(self.parameters)
+        return Model.from_string(model_as_string, self.parameters)
 
     def _create_temporary_directory_and_run_ATLAS(self, initial_model):
         with tempfile.TemporaryDirectory(prefix="atlas_") as tmpdirname:
@@ -90,7 +96,7 @@ class Atlas:
         outs, errs = process.communicate(md(self.parameters))
         process.wait()
         
-        return Model(os.path.join(tmpdirname,"fort.7"))
+        return Model.with_extended_set_of_parameters(os.path.join(tmpdirname,"fort.7"), self.parameters)
 
 def main():
     pass

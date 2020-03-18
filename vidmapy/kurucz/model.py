@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 
-from vidmapy.kurucz import parameters
-from vidmapy.kurucz import model_definition
+"""
+Object of thas class represent atmospheric model:
+- parameters
+- structure
+
+It is created from file:
+    Model(model_path)
+or from string or file with extended parameters set:
+    Model.from_string(model_string, parameters)
+    Model.with_extended_set_of_parameters(path, parameters)
+"""
+
+from vidmapy.kurucz.parameters import Parameters
 import re
 import io
 import numpy as np
@@ -10,8 +21,7 @@ class Model:
     _number_regexp = '[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?'
 
     def __init__(self, path=None):
-        self._data = None
-        self._parameters = parameters.Parameters()
+        self._parameters = Parameters()
         self._depth_dependend_data = None
         
         self._pradk = None
@@ -21,6 +31,24 @@ class Model:
 
         if path is not None:
             self._open_model(path)
+
+    @classmethod
+    def from_string(cls, model_string, parameters):
+        model = cls()
+        model._parameters = parameters
+        model.model_from_string(model_string)
+        return model
+
+    @classmethod
+    def with_extended_set_of_parameters(cls, path, parameters):
+        model = cls()
+        model._parameters = parameters
+        model._open_model(path)
+        return model
+
+    @property
+    def parameters(self):
+        return self._parameters
 
     @property
     def teff(self):
@@ -158,8 +186,6 @@ class Model:
         column_names = re.sub(r".*READ DECK6 *\d*","", line).split(',')
         return [x.strip() for x in column_names]
 
-
-
     def _read_row_data(self, line):
         return [float(x) for x in line.split()]
 
@@ -206,8 +232,7 @@ class Model:
 
 
 def main():
-    p = parameters.Parameters()
-    print(p.teff)
+    pass
 
 if __name__ == '__main__':
     main()

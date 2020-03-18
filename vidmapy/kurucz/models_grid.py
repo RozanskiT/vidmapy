@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+
+"""
+Class for getting string with best model from the grid of models:
+
+eg.
+    p = Parameters(teff=5000, logg=3.2)
+    grid = Grid(grid_path)
+    model_as_string = grid.get_best_model(p)
+"""
+
 from vidmapy.kurucz import model
 import re
 

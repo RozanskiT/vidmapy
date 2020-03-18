@@ -1,10 +1,24 @@
 #!/usr/bin/env python3
 
+"""
+Class Parameters:
+    Implements usefull class that encapsulates all parameters needed by SYNTHE and ATLAS codes
+Class Composition:
+    Implements easy to use chemical composition dictionary-like data handling and initial composition
+"""
+
 import copy
-"""
-"""
+
 class Parameters:
-    def __init__(self, teff=5777, logg=4.44, metallicity=0.0, microturbulence=2.0):
+    def __init__(self, 
+                    teff=5777, 
+                    logg=4.44, 
+                    metallicity=0.0, 
+                    microturbulence=2.0, 
+                    vsini=0.,
+                    resolution=100000,
+                    wave_min=4000,
+                    wave_max=7000):
         self.teff = teff
         self.logg = logg
         self.metallicity = metallicity
@@ -12,6 +26,11 @@ class Parameters:
         self.chemical_composition = Composition(_reference_composition)
 
         self.no_of_atlas_iterations = 15
+
+        self.vsini = vsini
+        self.resolution = resolution
+        self.wave_min = wave_min
+        self.wave_max = wave_max
 
     def update_chemical_composition(self, composition_dict):
         for atom_symbol in composition_dict:

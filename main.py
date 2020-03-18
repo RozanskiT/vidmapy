@@ -1,9 +1,31 @@
 #!/usr/bin/env python3
 
 from vidmapy.kurucz.atlas import Atlas
+from vidmapy.kurucz.synthe import Synthe
 from vidmapy.kurucz.parameters import Parameters
 
 import matplotlib.pyplot as plt
+
+def run_synthe():
+    p = Parameters(teff=8000., 
+                    logg=4.0, 
+                    metallicity=0.0, 
+                    microturbulence=2.0,
+                    vsini = 20.,
+                    wave_min = 4500,
+                    wave_max = 5000,
+                    resolution = 40000,
+                    )
+
+    wa = Atlas()
+    m = wa.get_model(p)
+    
+    ws = Synthe()
+    spectrum = ws.get_spectrum(m)
+
+    print(spectrum.lines_identification.head())
+    plt.plot(spectrum.wave, spectrum.normed_flux)
+    plt.show()
 
 def run_atlas():
     worker = Atlas()
@@ -22,6 +44,7 @@ def run_atlas():
 
 def main():
     run_atlas()
+    run_synthe()
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 
 """
+Create input string for ATLAS code, which defines model parameters:
+
+eg.
+    p = Parameters()
+    md = ModelDefinition()
+    atlas_input = md(p)
+
 """
 
 class ModelDefinition:
