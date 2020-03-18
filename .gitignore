@@ -4,3 +4,4 @@ model/
 test_data/
 .pytest_cache
 .vscode
+*.code-workspace
