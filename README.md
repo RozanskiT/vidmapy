@@ -1,4 +1,4 @@
-# VidmaPy - python wrapper for Kurucz's ATLAS/SYNTHE codes
+# VidmaPy - wrapper for Kurucz's ATLAS/SYNTHE codes
 
 VidmaPy is a python module that enable user to use the power of ATLAS/SYNTHE codes with just few lines of python code.
 
