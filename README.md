@@ -32,6 +32,7 @@ ax2.set_ylabel("Normalized Flux")
 
 plt.show()
 ```
+![Output plot of example code](docs/img/example_code_output.png)
 
 ## Getting Started
 
