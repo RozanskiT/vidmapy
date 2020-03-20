@@ -22,6 +22,7 @@ import subprocess
 import tempfile
 import glob
 import pandas as pd
+import copy
 
 class Synthe:
     def __init__(self):
@@ -32,8 +33,10 @@ class Synthe:
         self._atomic_data_path = os.path.join(self._kurucz_directory, "atomic_data")
         self.parameters = None
 
-    def get_spectrum(self, model):
-        self.parameters = model.parameters
+    def get_spectrum(self, model, parameters=None):
+        self.parameters = copy.deepcopy(model.parameters)
+        if parameters is not None:
+            self.parameters.get_synthe_parameters(parameters)
         spectrum = self._create_temp_direcotry_and_run_SYNTHE(model)
         return spectrum
 

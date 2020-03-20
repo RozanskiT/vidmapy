@@ -32,6 +32,15 @@ class Parameters:
         self.wave_min = wave_min
         self.wave_max = wave_max
 
+    def get_synthe_parameters(self, parameters):
+        self.vsini = parameters.vsini
+        self.resolution = parameters.resolution
+        self.wave_min = parameters.wave_min
+        self.wave_max = parameters.wave_max
+        
+        self.microturbulence = parameters.microturbulence
+        # TODO: what about chemical composition?
+
     def update_chemical_composition(self, composition_dict):
         for atom_symbol in composition_dict:
             self.chemical_composition[atom_symbol] = composition_dict[atom_symbol]
