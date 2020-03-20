@@ -43,7 +43,7 @@ def run_atlas():
     plt.show()
 
 def main():
-    run_atlas()
+    # run_atlas()
     run_synthe()
 
 if __name__ == '__main__':

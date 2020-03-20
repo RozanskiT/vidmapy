@@ -18,7 +18,8 @@ from vidmapy.kurucz.parameters import Parameters
 import os
 import subprocess
 import tempfile
-
+import copy
+import stat
 
 class Atlas:
     def __init__(self):
@@ -27,8 +28,10 @@ class Atlas:
         self.default_grid = os.path.join(self._kurucz_directory,"grids","ap00k2odfnew.txt")
         self.set_grid(path=self.default_grid)
         
-        self.kurucz_bin_path = "/usr/local/kurucz/"
-        self.atlas_name = "atlas9mem_newodf.exe"
+        self._kurucz_bin_path = self._kurucz_directory
+        self._atomic_data_path = os.path.join(self._kurucz_directory,"atomic_data")
+        # self._kurucz_bin_path = "/usr/local/kurucz/"
+        self._atlas_name = "atlas9mem_newodf.exe"
 
     def get_report(self):
         return f"TEFF  = {self.parameters.teff:5.0f}\n"\
@@ -63,7 +66,7 @@ class Atlas:
         self._grid = Grid(path)
 
     def get_model(self, parameters):
-        self.parameters = parameters
+        self.parameters = copy.deepcopy(parameters)
         initial_model = self._get_initial_model()
         if initial_model.is_model_has_this(self.parameters):
             return initial_model
@@ -82,13 +85,14 @@ class Atlas:
     def _compute_model(self, tmpdirname, initial_model):
         md = ModelDefinition()
         # Link necessary data:
-        os.symlink(os.path.join(self.kurucz_bin_path,"ODF","NEW","kapp02.ros"), os.path.join(tmpdirname,"fort.1"))
-        os.symlink(os.path.join(self.kurucz_bin_path,"ODF","NEW","p00big2.bdf"), os.path.join(tmpdirname,"fort.9"))
-        os.symlink(os.path.join(self.kurucz_bin_path,"lines","molecules.dat"), os.path.join(tmpdirname,"fort.2"))
+        os.symlink(os.path.join(self._atomic_data_path,"ODF","NEW","kapp02.ros"), os.path.join(tmpdirname,"fort.1"))
+        os.symlink(os.path.join(self._atomic_data_path,"ODF","NEW","p00big2.bdf"), os.path.join(tmpdirname,"fort.9"))
+        os.symlink(os.path.join(self._atomic_data_path,"lines","molecules.dat"), os.path.join(tmpdirname,"fort.2"))
         # Create intial model:
         initial_model.save_model(os.path.join(tmpdirname, "fort.3"))
+        
         # Run ATLAS
-        process = subprocess.Popen([os.path.join(self.kurucz_bin_path, "bin", self.atlas_name)],
+        process = subprocess.Popen([os.path.join(self._kurucz_bin_path, "bin", self._atlas_name)],
                                     stdin=subprocess.PIPE,
                                     stdout=subprocess.PIPE,
                                     encoding='utf8',
