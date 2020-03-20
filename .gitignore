@@ -1,5 +1,4 @@
 __pycache__
-grids/
 model/
 test_data/
 .pytest_cache
