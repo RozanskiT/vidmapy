@@ -7,13 +7,30 @@ VidmaPy is a python module that enable user to use the power of ATLAS/SYNTHE cod
 
 ### Example code
 ```python
-# Computation of ATLAS model
 from vidmapy.kurucz.atlas import Atlas
+from vidmapy.kurucz.synthe import Synthe
 from vidmapy.kurucz.parameters import Parameters
+import matplotlib.pyplot as plt
 
-worker = Atlas()
+atlas_worker = Atlas()
+model = atlas_worker.get_model(Parameters(teff=8000., logg=4.0, metallicity=0.0, microturbulence=2.0))
 
-model = worker.get_model(Parameters(12000., 4.0, 0.0, 2.0))
+synthe_worker = Synthe()
+spectrum = synthe_worker.get_spectrum(model, Parameters(wave_min=4500., wave_max=5000., vsini=50.))
+
+# Plot results
+f, (ax1, ax2) = plt.subplots(1, 2)
+ax1.plot(model.structure["RHOX"],model.structure["T"])
+ax1.set_title('Atmosphere model')
+ax1.set_xlabel("RHOX")
+ax1.set_ylabel("T [K]")
+
+ax2.plot(spectrum.wave, spectrum.normed_flux)
+ax2.set_title('Spectrum')
+ax2.set_xlabel("Wavelength [$\AA$]")
+ax2.set_ylabel("Normalized Flux")
+
+plt.show()
 ```
 
 ## Getting Started
