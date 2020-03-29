@@ -4,6 +4,7 @@ VidmaPy is a python module that enable user to use the power of ATLAS/SYNTHE cod
 
 ## Key features
 * Easy access to ATLAS and SYNTHE codes through Python
+* Currently works only under LINUX based systems (because of compiled codes included)
 
 ### Example code
 ```python
