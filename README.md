@@ -53,7 +53,7 @@ Two steps:
   - Download zip from:
   [vidmapy-master.zip](https://github.com/RozanskiT/vidmapy/archive/master.zip)
 * Download and untar direcotires with necessary atomic data in /vidmapy/kurucz/atomic_data/
-  - Can be downloaded from : [atomc data](https://drive.google.com/drive/folders/1H-lFH69fyWvwWydgO8uBS3TIAdZ9hWdc?usp=sharing)
+  - Can be downloaded from : [atomic data](https://drive.google.com/drive/folders/1H-lFH69fyWvwWydgO8uBS3TIAdZ9hWdc?usp=sharing)
   
 ## Tutorial
 TODO: fulfill
