@@ -42,10 +42,16 @@ class Spectrum:
     
     def read_spectrum_file(self, path):
         df = pd.read_csv(path, header=None, index_col=False, delim_whitespace=True)
-        self.wave = df[0]
-        self.flux = df[1] 
-        self.continuum = df[2] 
-        self.normed_flux = df[3]
+        self.wave = df[0].values
+        self.flux = df[1].values 
+        self.continuum = df[2].values 
+        self.normed_flux = df[3].values
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return f"({self.parameters.teff}, {self.parameters.logg}, {self.parameters.metallicity}, ({min(self.wave)}, {max(self.wave):.2f}))"
 
 def main():
     pass

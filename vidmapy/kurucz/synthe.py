@@ -31,13 +31,12 @@ class Synthe:
         # self._kurucz_bin_path = "/usr/local/kurucz/"
         self._kurucz_bin_path = os.path.join(self._kurucz_directory, 'bin')
         self._atomic_data_path = os.path.join(self._kurucz_directory, "atomic_data")
-        self.parameters = None
 
     def get_spectrum(self, model, parameters=None):
-        self.parameters = copy.deepcopy(model.parameters)
+        self.model = copy.deepcopy(model)
         if parameters is not None:
-            self.parameters.get_synthe_parameters(parameters)
-        spectrum = self._create_temp_direcotry_and_run_SYNTHE(model)
+            self.model.parameters.get_synthe_parameters(parameters)
+        spectrum = self._create_temp_direcotry_and_run_SYNTHE(self.model)
         return spectrum
 
     def _create_temp_direcotry_and_run_SYNTHE(self, model):
@@ -56,7 +55,7 @@ class Synthe:
         self._run_broaden(tmpdirname, model)
         self._run_syntoascanga(tmpdirname, model) #converfsynnmtoa.exe ?
 
-        return Spectrum.from_synthe_spectrum(self.parameters, tmpdirname)
+        return Spectrum.from_synthe_spectrum(self.model.parameters, tmpdirname)
 
     def _run_xnfpelsyn(self, tmpdirname, model):
         # Prepare lines data
@@ -164,7 +163,7 @@ class Synthe:
 
     def _get_synbeg_input(self, model):
         s = [
-            f"AIR        {self.parameters.wave_min/10.:6.1f}    {self.parameters.wave_max/10.:6.1f}    600000.    {self.parameters.microturbulence:5.2f}    0     30    .0001     1    0\n",
+            f"AIR        {self.model.parameters.wave_min/10.:6.1f}    {self.model.parameters.wave_max/10.:6.1f}    600000.    {self.model.parameters.microturbulence:5.2f}    0     30    .0001     1    0\n",
             "AIRorVAC  WLBEG     WLEND     RESOLU    TURBV  IFNLTE LINOUT CUTOFF        NREAD\n"
         ]
         return "".join(s)
@@ -184,12 +183,12 @@ class Synthe:
     def _get_rotate_string(self):
         s = [
             "    1\n",
-            f"{self.parameters.vsini:3.0f}."
+            f"{self.model.parameters.vsini:3.0f}."
         ]
         return "".join(s)
 
     def _get_broaden_string(self):
-        return f"GAUSSIAN  {self.parameters.resolution:^8.1f}  RESOLUTION"
+        return f"GAUSSIAN  {self.model.parameters.resolution:^8.1f}  RESOLUTION"
 
 def main():
     # http://wwwuser.oats.inaf.it/castelli/sources/linuxcodes.html

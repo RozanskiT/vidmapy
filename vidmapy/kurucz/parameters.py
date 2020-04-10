@@ -18,12 +18,15 @@ class Parameters:
                     vsini=0.,
                     resolution=100000,
                     wave_min=4000,
-                    wave_max=7000):
+                    wave_max=7000,
+                    **kwargs):
         self.teff = teff
         self.logg = logg
         self.metallicity = metallicity
         self.microturbulence = microturbulence
         self.chemical_composition = Composition(_reference_composition)
+        for key, value in kwargs.items():
+            self.chemical_composition[key] = value
 
         self.no_of_atlas_iterations = 15
 
@@ -39,7 +42,10 @@ class Parameters:
         self.wave_max = parameters.wave_max
         
         self.microturbulence = parameters.microturbulence
-        # TODO: what about chemical composition?
+        # TODO: what about chemical composition and metallicity?
+        # For now I copy it:
+        self.chemical_composition = copy.deepcopy(parameters.chemical_composition)
+        self.metallicity = parameters.metallicity
 
     def update_chemical_composition(self, composition_dict):
         for atom_symbol in composition_dict:

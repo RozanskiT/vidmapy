@@ -44,7 +44,7 @@ class Model:
     def with_extended_set_of_parameters(cls, path, parameters):
         model = cls()
         model._parameters = copy.deepcopy(parameters)
-        model._open_model(path)
+        model._open_model(path) # overwrites parameters that can be found in model file
         return model
 
     @property
