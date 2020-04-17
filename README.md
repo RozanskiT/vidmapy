@@ -55,6 +55,21 @@ Two steps:
 * Download and untar direcotires with necessary atomic data in /vidmapy/kurucz/atomic_data/
   - Can be downloaded from : [atomic data](https://drive.google.com/drive/folders/1H-lFH69fyWvwWydgO8uBS3TIAdZ9hWdc?usp=sharing)
   
+### Install
+
+* Move into vidmapy directory
+```
+cd vidmapy
+```
+* To install VidmaPy in currently activated environment run:
+```
+python setup.py install
+```
+or
+```
+python setup.py develop
+```
+  
 ## Tutorial
 TODO: fulfill
 
