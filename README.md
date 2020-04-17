@@ -52,7 +52,7 @@ Two steps:
     ```
   - Download zip from:
   [vidmapy-master.zip](https://github.com/RozanskiT/vidmapy/archive/master.zip)
-* Download and untar direcotires with necessary atomic data in /vidmapy/kurucz/atomic_data/
+* Download and untar directories with necessary atomic data in /vidmapy/kurucz/atomic_data/
   - Can be downloaded from : [atomic data](https://drive.google.com/drive/folders/1H-lFH69fyWvwWydgO8uBS3TIAdZ9hWdc?usp=sharing)
   
 ### Install
@@ -63,11 +63,11 @@ cd vidmapy
 ```
 * To install VidmaPy in currently activated environment run:
 ```
-python setup.py install
+pip install .
 ```
-or
+or if you want to develop VidmaPy:
 ```
-python setup.py develop
+pip install -e .
 ```
   
 ## Tutorial

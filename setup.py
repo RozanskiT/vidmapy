@@ -11,7 +11,7 @@ setup(name='VidmaPy',
       long_description=long_description,
       long_description_content_type="text/markdown",
       url="https://github.com/RozanskiT/vidmapy.git",
-      packages=find_packages(),
+      packages=find_packages(exclude=["tests"]),
       classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -19,7 +19,7 @@ setup(name='VidmaPy',
         ],
       python_requires='>=3.5',
       include_package_data=True,
-      package_data={'':['bin/*','grids/*','atomic_data/*']},
+      package_data={'':['bin/*','grids/*','atomic_data/lines/*','atomic_data/molecules/*','atomic_data/ODF/NEW/*']},
 )
 
 # Way to install in develop mode
