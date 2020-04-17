@@ -19,7 +19,7 @@ setup(name='VidmaPy',
         ],
       python_requires='>=3.5',
       include_package_data=True,
-      package_data={'':['bin/*','grids/*','atomic_data/*']},
+      package_data={'':['bin/*','grids/*','atomic_data/lines/*','atomic_data/molecules/*','atomic_data/ODF/*']},
 )
 
 # Way to install in develop mode
