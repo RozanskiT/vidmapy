@@ -32,6 +32,11 @@ def string_from_kurucz_code(kurucz_code):
     atom, ion = [int(x) for x in f"{kurucz_float:.2f}".split('.')]
     return "{}{}".format(atomic_number_to_symbol[atom], encode_roman_numeral(ion+1))
 
+def split_kurucz_code_to_numerals(kurucz_code):
+    kurucz_float = float(kurucz_code)
+    atom, ion = [int(x) for x in f"{kurucz_float:.2f}".split('.')]
+    return atom, ion
+
 def decode_roman_numeral(roman):
     """Calculate the numeric value of a Roman numeral (in capital letters)"""
     # CREDITS: 200_success, https://codereview.stackexchange.com/questions/141402/converting-from-roman-numerals-to-arabic-numbers
