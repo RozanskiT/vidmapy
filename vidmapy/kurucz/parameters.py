@@ -35,7 +35,7 @@ class Parameters:
         self.wave_min = wave_min
         self.wave_max = wave_max
 
-    def get_synthe_parameters(self, parameters):
+    def get_synthe_parameters(self, parameters, quiet=False):
         self.vsini = parameters.vsini
         self.resolution = parameters.resolution
         self.wave_min = parameters.wave_min
@@ -46,6 +46,11 @@ class Parameters:
         # For now I copy it:
         self.chemical_composition = copy.deepcopy(parameters.chemical_composition)
         self.metallicity = parameters.metallicity
+        if not quiet:
+            print("INFO: While explicitly defining parameters for SYNTHE get_spectrum() method")
+            print("  vsini, resolution, wave_min, wave_max")
+            print("  microturbulence, chemical_composition and metallicity")
+            print("  are taken from 'parameters' function input.")
 
     def update_chemical_composition(self, composition_dict):
         for atom_symbol in composition_dict:

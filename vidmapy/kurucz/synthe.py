@@ -32,10 +32,10 @@ class Synthe:
         self._kurucz_bin_path = os.path.join(self._kurucz_directory, 'bin')
         self._atomic_data_path = os.path.join(self._kurucz_directory, "atomic_data")
 
-    def get_spectrum(self, model, parameters=None):
+    def get_spectrum(self, model, parameters=None, quiet=False):
         self.model = copy.deepcopy(model)
         if parameters is not None:
-            self.model.parameters.get_synthe_parameters(parameters)
+            self.model.parameters.get_synthe_parameters(parameters,quiet=quiet)
         spectrum = self._create_temp_direcotry_and_run_SYNTHE(self.model)
         return spectrum
 
