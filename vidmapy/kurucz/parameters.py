@@ -52,9 +52,13 @@ class Parameters:
             print("  microturbulence, chemical_composition and metallicity")
             print("  are taken from 'parameters' function input.")
 
-    def update_chemical_composition(self, composition_dict):
+    def update_chemical_composition(self, composition_dict, relative=False):
+        rc= Composition(_reference_composition)
         for atom_symbol in composition_dict:
-            self.chemical_composition[atom_symbol] = composition_dict[atom_symbol]
+            if not relative:
+                self.chemical_composition[atom_symbol] = composition_dict[atom_symbol]
+            else:
+                self.chemical_composition[atom_symbol] = rc[atom_symbol]+composition_dict[atom_symbol]
 
     def __eq__(self, other):
         return self.teff == other.teff and\
