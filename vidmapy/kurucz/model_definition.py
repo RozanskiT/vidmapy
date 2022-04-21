@@ -32,7 +32,7 @@ class ModelDefinition:
              "READ PUNCH\n",
              "MOLECULES ON\n",
              "READ MOLECULES\n",
-             "FREQUENCIES 337 1 337 BIG\n",
+             "FREQUENCIES 1221 1 1221 LITTLE\n",
              "CONVECTION OVER 1.25 0 36\n"
             ]
         return "".join(s)
